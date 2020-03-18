@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Web Browser</string>
+    <string name="input_website_address">Input website address</string>
+</resources>
