@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private Context context;
     private EditText searchbar;
     private String url;
+    private String urlActive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         web.setWebViewClient(new WebViewClient());
         web.getSettings().setJavaScriptEnabled(true);
         web.loadUrl("http://www.google.com");
+        urlActive ="http://www.google.com";
     }
 
     public void searchButtonActivity(View v) {
@@ -38,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
         else {
             url = "http://"+s;
             web.loadUrl(url);
+            urlActive = url;
         }
+    }
+
+    public void refreshButtonActivity(View v) {
+        web.loadUrl(urlActive);
     }
 }
