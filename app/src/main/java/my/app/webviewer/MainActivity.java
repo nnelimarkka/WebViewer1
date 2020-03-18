@@ -37,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(context, "Input address first.", Toast.LENGTH_SHORT);
             toast.show();
         }
+        else if (s.matches("index.html")) {
+            url = "file:///android_asset/index.html";
+            web.loadUrl(url);
+            urlActive = url;
+        }
         else {
             url = "http://"+s;
             web.loadUrl(url);
@@ -46,5 +51,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void refreshButtonActivity(View v) {
         web.loadUrl(urlActive);
+    }
+
+    public void executeShoutOut(View v) {
+        web.evaluateJavascript("shoutOut()", null);
+    }
+
+    public void executeInitialize(View v) {
+        web.evaluateJavascript("initialize()", null);
     }
 }
