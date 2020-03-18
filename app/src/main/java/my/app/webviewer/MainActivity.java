@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText searchbar;
     private String url;
     private String urlActive;
+    private String urlPrevious = "";
+    private String urlNext = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void searchButtonActivity(View v) {
+        urlPrevious = urlActive;
         String s = searchbar.getText().toString();
         if (s.matches("")) {
             Toast toast = Toast.makeText(context, "Input address first.", Toast.LENGTH_SHORT);
@@ -53,11 +56,32 @@ public class MainActivity extends AppCompatActivity {
         web.loadUrl(urlActive);
     }
 
-    public void executeShoutOut(View v) {
+    public void previousButtonActivity (View v) {
+        if (urlPrevious.matches("")) {
+            Toast toast = Toast.makeText(context, "No previous site found.", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else {
+            web.loadUrl(urlPrevious);
+            urlNext = urlActive;
+        }
+    }
+
+    public void nextButtonActivity(View v) {
+        if (urlNext.matches("")) {
+            Toast toast = Toast.makeText(context, "Already on most recent website.", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else {
+            web.loadUrl(urlNext);
+        }
+    }
+
+    /*public void executeShoutOut(View v) {
         web.evaluateJavascript("shoutOut()", null);
     }
 
     public void executeInitialize(View v) {
         web.evaluateJavascript("initialize()", null);
-    }
+    }*/
 }
