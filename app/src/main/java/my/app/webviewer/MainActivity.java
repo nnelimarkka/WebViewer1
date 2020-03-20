@@ -3,7 +3,9 @@ package my.app.webviewer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -19,11 +21,13 @@ public class MainActivity extends AppCompatActivity {
     private String urlActive;
     private String urlPrevious = "";
     private String urlNext = "";
+    private PageHistory pageHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        pageHistory = PageHistory.getPageHistory();
         context = MainActivity.this;
         searchbar = (EditText) findViewById(R.id.editText);
         web = (WebView) findViewById(R.id.webView);
@@ -44,11 +48,13 @@ public class MainActivity extends AppCompatActivity {
             url = "file:///android_asset/index.html";
             web.loadUrl(url);
             urlActive = url;
+            pageHistory.addPreviousSite(urlPrevious, url);
         }
         else {
             url = "http://"+s;
             web.loadUrl(url);
             urlActive = url;
+            pageHistory.addPreviousSite(urlPrevious, url);
         }
     }
 
@@ -57,17 +63,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void previousButtonActivity (View v) {
+        urlPrevious = pageHistory.getPreviousSite();
         if (urlPrevious.matches("")) {
             Toast toast = Toast.makeText(context, "No previous site found.", Toast.LENGTH_SHORT);
             toast.show();
         }
         else {
             web.loadUrl(urlPrevious);
-            urlNext = urlActive;
         }
     }
 
     public void nextButtonActivity(View v) {
+        urlNext = pageHistory.getNextSite();
         if (urlNext.matches("")) {
             Toast toast = Toast.makeText(context, "Already on most recent website.", Toast.LENGTH_SHORT);
             toast.show();
